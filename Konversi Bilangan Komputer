@@ -1,0 +1,213 @@
+/*
+ * Nama  : Mukti Abdi Syukur
+ * Kelas : TI - A
+ * NIM   : 235150701111003
+ */
+
+ 
+import java.util.Scanner;
+
+public class BilanganKomputer {
+    public static void main(String[] args) {
+        
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("PROGRAM UNTUK MENGKONVERSI BILANGAN KOMPUTER");
+        System.out.println("======================================================");
+
+        boolean tidak = true;
+
+        while (tidak) {
+        System.out.println("1. Bilangan biner ke bilangan desimal\n" + 
+                           "2. Bilangan biner ke bilangan heksadesimal\n" + 
+                           "3. Bilangan desimal ke bilangan biner\n" + 
+                           "4. Bilangan desimal ke bilangan heksadesimal\n" + 
+                           "5. Bilangan heksadesimal ke bilangan biner\n" + 
+                           "6. Bilangan heksadesimal ke bilangan desimal");
+        System.out.print("Pilih konversi yang diinginkan sesuai dengan nomor : ");
+        int pilih = input.nextInt();
+        input.nextLine();
+        System.out.println("======================================================");
+
+        if (pilih < 1 || pilih > 6) {
+            System.out.println("Angka yang dimasukkan tidak sesuai!");
+            return;
+        }
+
+        switch (pilih) {
+            case 1:
+                System.out.println("\nKonversi bilangan biner ke bilangan desimal");
+                System.out.print("Masukkan angka biner yang ingin dikonversi : ");
+                String masukanBiner = input.nextLine();
+
+                if (!kebenaranBiner(masukanBiner)) {
+                    System.out.println("Angka biner yang dimasukkan tidak sesuai!");
+                    return;
+                }
+
+                int hasilDesimal = konversiBinerKeDesimal(masukanBiner);
+                System.out.printf("%s%30s%d", "Hasil konversi ", ": ", hasilDesimal);
+
+                break;
+
+            case 2:
+                System.out.println("\nKonversi bilangan biner ke bilangan heksadesimal");
+                System.out.print("Masukkan angka biner yang ingin dikonversi : ");
+                masukanBiner = input.nextLine();
+
+                if (!kebenaranBiner(masukanBiner)) {
+                    System.out.println("Angka biner yang dimasukkan tidak sesuai!");
+                    return;
+                }
+
+                String hasilHeksadesimal = konversiBinerKeHeksadesimal(masukanBiner);
+                System.out.printf("%s%30s%s", "Hasil konversi ", ": ", hasilHeksadesimal);
+
+                break;
+
+            case 3:
+                System.out.println("\nKonversi bilangan desimal ke biner");
+                System.out.print("Masukkan angka desimal yang ingin dikonversi : ");
+                
+                if (input.hasNextLong()){
+                    long masukanDesimal = input.nextLong();
+                    input.nextLine();
+
+                    String konversiDesimalKeBiner = Long.toBinaryString (masukanDesimal);
+                    System.out.printf("%s%32s%s", "Hasil konversi ", ": ", konversiDesimalKeBiner);
+                }
+                else {
+                    System.out.println("Angka desimal yang dimasukkan tidak sesuai!");
+                    return;
+                }
+
+                break;
+
+            case 4:
+                System.out.println("\nKonversi bilangan desimal ke heksadesimal");
+                System.out.print("Masukkan angka desimal yang ingin dikonversi : ");
+                
+                if (input.hasNextLong()){
+                    long masukanDesimal = input.nextInt();
+                    input.nextLine();
+
+                    String hasilHeksadesimal2 = konversiDesimalKeHeksadesimal(masukanDesimal);
+                    System.out.printf("%s%32s%s", "Hasil konversi ", ": ", hasilHeksadesimal2);
+                }
+                else {
+                    System.out.println("Angka desimal yang dimasukkan tidak sesuai!");
+                    return;
+                }
+
+                break;
+
+            case 5:
+                System.out.println("\nKonversi bilangan heksadesimal ke biner");
+                System.out.print("Masukkan angka heksadesimal yang ingin dikonversi : ");
+                String masukanHeksadesimal = input.nextLine();
+
+                try {
+                    long desimal = Long.parseLong(masukanHeksadesimal, 16);
+                    String biner = Long.toBinaryString(desimal);
+                    System.out.printf("%s%37s%s", "Hasil konversi ", ": ", biner);
+                }
+                catch (NumberFormatException e){
+                    System.err.println("Angka heksadesimal yang dimasukkan tidak sesuai!");
+                    return;
+                }
+
+                break;
+
+            case 6:
+                System.out.println("\nKonversi bilangan heksadesimal ke desimal");
+                System.out.print("Masukkan angka heksadesimal yang ingin dikonversi : ");
+                masukanHeksadesimal = input.nextLine();
+
+                try {
+                    long desimal = Long.parseLong(masukanHeksadesimal, 16);
+                    System.out.printf("%s%37s%s", "Hasil konversi ", ": ", desimal);
+                }
+                catch (NumberFormatException e){
+                    System.err.println("Angka heksadesimal yang dimasukkan tidak sesuai!");
+                    return;
+                }
+
+                break;
+        }
+
+        System.out.println("\n\nMau lanjut?");
+        System.out.print("Iya atau Tidak : ");
+        String lanjut = input.nextLine();
+        
+        if (lanjut.equalsIgnoreCase("tidak")) {
+            System.out.println("\nTerima kasih telah menggunakan program ini");
+            tidak = false;
+        }
+
+        System.out.println();
+        input.close();
+
+        }
+
+    }
+
+    public static boolean kebenaranBiner(String masukanBiner){
+        
+        for(int i = 0; i < masukanBiner.length(); i++){
+            char karakter = masukanBiner.charAt(i);
+            
+            if (karakter != '0' && karakter != '1') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int konversiBinerKeDesimal(String masukanBiner){
+        int panjang = masukanBiner.length();
+        int desimal = 0;
+
+        for(int i = 0; i < panjang; i++){
+            int angka = Character.getNumericValue(masukanBiner.charAt(i));
+            desimal += angka * Math.pow(2, (panjang - 1 - i));
+        }
+        return desimal;
+    }
+
+    public static String konversiBinerKeHeksadesimal(String masukanBiner){
+        int desimal = konversiBinerKeDesimal(masukanBiner);
+        
+        String heksadesimal = "";
+        while (desimal > 0) {
+            int sisa = desimal % 16;
+            if (sisa < 10) {
+                heksadesimal = sisa + heksadesimal;
+            }
+            else{
+                heksadesimal = (char) ('A' + (sisa - 10)) + heksadesimal;
+            }
+            desimal /= 16;
+        }
+
+        return heksadesimal;
+        
+    }
+
+    public static String konversiDesimalKeHeksadesimal(long masukanDesimal){
+
+        String heksadesimal = "";
+        while (masukanDesimal > 0) {
+            long sisa = masukanDesimal % 16;
+            if (sisa < 10) {
+                heksadesimal = sisa + heksadesimal;
+            }
+            else{
+                heksadesimal = (char) ('A' + (sisa - 10)) + heksadesimal;
+            }
+            masukanDesimal /= 16;
+        }
+
+        return heksadesimal;
+    }
+
+}
